@@ -174,6 +174,7 @@ for(int i = 0; i < test.length; i++) {
 특정 작업(Task)을 별도의 스레드에서 실행하거나 실행 스레드 풀에 넣어야 할 경우에 사용한다.(멀티스레드 사용)
 run() 메서드 한 개만 갖는다.
 
+```
 class HelloTask implements Runnable{
    public void run() {
 	for(int I = 0; I < 1000; I++) {
@@ -185,3 +186,4 @@ class HelloTask implements Runnable{
 Runnable Task = new HelloTask();
 Thread thread = new Thread(Task);
 thread.start();
+```
