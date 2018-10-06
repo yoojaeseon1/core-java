@@ -63,7 +63,7 @@ FileSequence 클래스는 IntSequence와 Closeable을 슈퍼타입으로 둔다.
 
 ------------
 
-### 상수
+## 상수
 
 인터페이스에서 정의한 변수는 자동으로 public static final이 된다.
 
