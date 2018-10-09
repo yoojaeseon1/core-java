@@ -32,18 +32,44 @@ public abstract class Person {
 
 	public static void main(String[] args) {
 		
-		Person person = new Student();
+//		Person person = new Student();
+//		
+//		List<String> names = new ArrayList<String>(100) {
+//			
+//			@Override
+//			public void add(int index, String element) {
+//				super.add(index, element);
+//				System.out.println("Adding " + element + " at " + index);
+//			}
+//		};
+//		
+//		names.add(0, "haha");
 		
-		List<String> names = new ArrayList<String>(100) {
-			
-			@Override
-			public void add(int index, String element) {
-				super.add(index, element);
-				System.out.println("Adding " + element + " at " + index);
-			}
-		};
 		
-		names.add(0, "haha");
+		Student stu2 = new Student();
+		Student stu3 = new Student();
+		Student stu5 = new Student();
+		
+//		
+//		
+//		System.out.println(stu);
+		
+//		String a = "haha";
+//		String b = "haha";
+//		String b = new String("haha");
+//		
+//		System.out.println(a.equals(b));
+//		System.out.println(a==b);
+		
+		
+		System.out.println(stu5.hashCode());
+		System.out.println(stu3.hashCode());
+		System.out.println(stu2.hashCode());
+		
+		String a = "haha";
+		
+		System.out.println(a.hashCode());
+		
 		
 	}
 
@@ -51,9 +77,28 @@ public abstract class Person {
 
 class Student extends Person{
 
+	private int stuNum;
+	private int score;
+	
+	
+	
+	
+	@Override
+	public String toString() {
+		return getClass().getName()+"Student [stuNum=" + stuNum + ", score=" + score + "]";
+	}
+	
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return super.hashCode();
+	}
+
 	@Override
 	public int getId() {
 		return 0;
 	}
+	
+	
 	
 }
