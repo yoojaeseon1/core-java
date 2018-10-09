@@ -119,9 +119,11 @@ Person과 Named에 같은 이름을 갖는 메서드가 있을 경우 슈퍼클�
 
 == 연산자의 경우 같은 값이더라도 주소값이 다르면(다른 인스턴스면) false를 출력하기 때문에 비교하기에 부적절할 수 있다.
 
+```
 String a = "haha";
 String b = "haha";
 String c = new String("haha")
+```
 
 a.equals(b), a.equals(c) 그리고 a==b는 true이지만 a==c는 false가 된다(a와 c는 각각 인스턴스이기 때문에 주소가 다르다.)
 
