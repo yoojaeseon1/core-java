@@ -1,0 +1,23 @@
+package chapter4.sources;
+
+public abstract class Person {
+	
+	
+	private String name;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
