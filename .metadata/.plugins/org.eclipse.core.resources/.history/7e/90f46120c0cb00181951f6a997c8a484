@@ -1,0 +1,86 @@
+package chapter4;
+
+public class Employee {
+	
+	private String name;
+	private int salary;
+	
+	public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Employee(String name, int salary) {
+		this.setName(name);
+		this.salary = salary;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public int getSalary() {
+		return salary;
+	}
+
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+
+	public boolean worksFor(Employee superviser) {
+		
+		return true;
+	}
+	
+	public Employee getSupervisor() {
+		
+		return new Employee();
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		
+		Manager manager = new Manager("jaeseon", 40000000);
+		
+		System.out.println(manager.getName());
+		
+		Employee emp = new Employee("emp", 1000000);
+
+	}
+
+}
+
+class Manager extends Employee{  // 오버라이딩한 메서드는 @override 애너테이션을 붙여주는 것이 좋다.
+	
+	private int bonus;
+	
+	public Manager() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public int getSalary() {
+		
+		return 1;
+	}
+	
+	public Manager(String name, int salary) {
+		super(name, salary);
+	}
+	
+	@Override  
+	public boolean worksFor(Employee superviser) {
+		// TODO Auto-generated method stub
+		return super.worksFor(superviser);
+	}
+	
+	@Override
+	public Manager getSupervisor() {
+		// TODO Auto-generated method stub
+		return new Manager();
+	}
+	
+}
