@@ -2,4 +2,6 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="chapter4.Manager"/>
 <fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="chapter4.sources.Size"/>
+<fullyQualifiedTypeName name="chapter4.sources.Person"/>
 </qualifiedTypeNameHistroy>
