@@ -1,0 +1,3 @@
+package chapter4.sources;
+
+public enum Size { SMALL("S"), DEMIUM, LARGE, EXTRA_LARGE};

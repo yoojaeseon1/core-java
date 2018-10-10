@@ -119,9 +119,9 @@ Person과 Named에 같은 이름을 갖는 메서드가 있을 경우 슈퍼클�
 
 == 연산자의 경우 같은 값이더라도 주소값이 다르면(다른 인스턴스면) false를 출력하기 때문에 비교하기에 부적절할 수 있다.
 
-String a = "haha";
-String b = "haha";
-String c = new String("haha")
+		String a = "haha";
+		String b = "haha";
+		String c = new String("haha");
 
 a.equals(b), a.equals(c) 그리고 a==b는 true이지만 a==c는 false가 된다(a와 c는 각각 인스턴스이기 때문에 주소가 다르다.)
 
@@ -150,3 +150,52 @@ String 클래스의 경우 같은 문자열을 가지면 같은 hashcode를 가�
         }
         return h;
     }
+    
+    
+### enumeration(열거)
+
+	public static int eval(Operation op, int arg1, int arg2) {
+		int result = 0;
+
+		switch (op) {
+		case ADD:
+			result = arg1 + arg2;
+			break;
+		case SUBTRACT:
+			result = arg1 - arg2;
+			break;
+		case MULTIPLY:
+			result = arg1 * arg2;
+			break;
+		case DIVIDE:
+			result = arg1 / arg2;
+			break;
+		}
+
+		return result;
+	}
+	
+	int result = eval(Operation.ADD, 1, 2);
+	
+결과값 : 3
+
+		Size sizeTest = Size.valueOf("LARGE");
+		
+		System.out.println(sizeTest.getAbbreviation());
+		
+결과값 : L
+
+
+### Class 클래스
+
+객체에 대한 더 많은 정보를 얻고 싶을 때 사용한다.
+
+	Class<?> cl = int.class; // output : int
+	
+	Student stu = new Student()
+	
+	Class<?> cl = stu.getClass(); // output : chapter4.sources.Student
+	
+클래스의 패키지 경로를 출력한다.
+
+

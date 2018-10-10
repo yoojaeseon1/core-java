@@ -1,0 +1,18 @@
+package chapter4.sources;
+
+public class EnumTest {
+	
+	public enum Size{SMALL, MEDIUM, LARGE, EXTRA_LARGE};
+	
+	
+	
+	
+
+	
+	public static void main(String[] args) {
+		
+		
+
+	}
+
+}

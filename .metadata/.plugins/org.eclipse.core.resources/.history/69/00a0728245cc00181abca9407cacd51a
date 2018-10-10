@@ -1,0 +1,13 @@
+package chapter4.sources;
+
+public class ClassTest {
+
+	public static void main(String[] args) {
+		
+		String className = "java.util.Scanner";
+		
+		Class<?> cl = Class.forName(className);
+
+	}
+
+}
