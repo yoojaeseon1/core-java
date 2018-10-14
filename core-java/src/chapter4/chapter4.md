@@ -10,6 +10,14 @@
 
 파라미터를 바꿨을 때 : The method worksFor(Manager) of type Manager must override or implement a supertype method
 
+### 객체는
+
+상태(필드)나 행동(메서드)을 가지고 있는 단위다.
+
+클래스는 단순히 객체를 코드로 표현하는 매커니즘이다.
+
+### 하나의 파일에는 public이 붙은 클래스나, 인터페이스는 하나만 들어가는 것이 좋다.
+
 ### 서브 클래스 생성
 
 서브클래스에서 슈퍼 클래스의 private필드에 접근할 수 없기 때문에 슈퍼클래스의 생성자로 해당 변수를 초기화 해야한다.(반드시 서브클래스 생성자의 첫 번째 줄에 작성해야한다.
@@ -98,7 +106,7 @@ ArrayList를 다시 쓸일이 없다면 add메서드가 실행되있는 익명�
 
 ### 인터페이스의 기본메서드와 슈퍼클래스의 메서드의 충돌
 
-	public class Student extends Perseon implements Named {
+	public class Student extends Person implements Named {
 	   ...
 	}
 
@@ -153,7 +161,11 @@ String 클래스의 경우 같은 문자열을 가지면 같은 hashcode를 가�
     }
     
     
-### enumeration(열거)
+### enumeration(열거) : 자주 쓰이니까 잘 알아두자
+
+상수(정적인 값)를 그룹화 할때 사용(ex) 요일)
+
+enum은 한줄에 하나씩, 열거하지 말고
 
 	public static int eval(Operation op, int arg1, int arg2) {
 		int result = 0;

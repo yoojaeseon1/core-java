@@ -81,6 +81,9 @@ class Student extends Person{
 	private int score;
 	
 	
+	public void test(Person p) {
+		
+	}
 	
 	
 	@Override

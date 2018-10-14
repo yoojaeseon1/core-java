@@ -1,5 +1,7 @@
 package chapter4.sources;
 
+import java.util.List;
+
 public class ClassTest {
 
 	public static void main(String[] args) throws ClassNotFoundException {
@@ -14,13 +16,13 @@ public class ClassTest {
 		
 		Student person = new Student();
 		
-		Class<?> cl = person.getClass();
+//		Class<?> cl = person.getClass();
+//		
+//		System.out.println(cl.getName());
 		
-		System.out.println(cl.getName());
+		int a = 5;
+		Integer b = 5;
 		
 		
-		
-
 	}
-
 }
