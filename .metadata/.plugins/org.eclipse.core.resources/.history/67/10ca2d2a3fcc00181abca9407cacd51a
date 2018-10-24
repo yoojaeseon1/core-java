@@ -1,7 +1,0 @@
-package chapter4.sources;
-
-public enum Size { SMALL, DEMIUM, LARGE, EXTRA_LARGE};
-
-public static void main(String[] args) {
-	
-}

@@ -1,0 +1,10 @@
+# 예외(Exception)
+
+### 계층
+
+throwable - Error(비검사예외), Exception(- RuntimeException - .....)
+
+Error : 비검사예외(Ex) 메모리고갈)
+
+우리가 확인해야 되는 예외는 Exception(검사예외)이다.
+
