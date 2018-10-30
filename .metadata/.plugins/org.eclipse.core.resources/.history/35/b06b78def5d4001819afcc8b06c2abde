@@ -1,7 +1,0 @@
-# 예외(Exception)
-
-### 계층
-
-throwable - Error, Exception(- RuntimeException - .....)
-
-
