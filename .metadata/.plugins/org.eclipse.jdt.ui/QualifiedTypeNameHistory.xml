@@ -5,4 +5,5 @@
 <fullyQualifiedTypeName name="chapter4.sources.Person"/>
 <fullyQualifiedTypeName name="java.beans.EventHandler"/>
 <fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
 </qualifiedTypeNameHistroy>
