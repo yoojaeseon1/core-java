@@ -16,6 +16,8 @@
 
 클래스는 단순히 객체를 코드로 표현하는 매커니즘이다.(객체가 더 큰 개념)
 
+Object 클래스의 인스턴스는 Object타입이라고 하자.
+
 ### 하나의 파일에는 public이 붙은 클래스나, 인터페이스는 하나만 들어가는 것이 좋다.
 
 ### 서브 클래스 생성
@@ -92,7 +94,7 @@ protected로 선언할 경우 같은 패키치에서만 접근이 가능하다.
 		};
 		
 		
-ArrayList를 다시 쓸일이 없다면 add메서드가 실행되있는 익명클래스로 만들어서 파라미터로 넣으면 된다
+ArrayList를 다시 쓸일이 없다면 add메서드가 실행되있는 익명클래스로 만들어서 파라미터로 넣으면 된다.
 
 
 	invite(new ArrayList<String>(){{add("jaeseon"); add("jaemin")}})
@@ -194,7 +196,6 @@ enum은 한줄에 하나씩, 열거하지 말고
 		
 결과값 : L
 
-
 ### Class 클래스
 
 객체에 대한 더 많은 정보를 얻고 싶을 때 사용한다.
@@ -206,3 +207,36 @@ enum은 한줄에 하나씩, 열거하지 말고
 	Class<?> cl = stu.getClass(); // output : chapter4.sources.Student
 	
 클래스의 패키지 경로를 출력한다.
+
+
+### 리플렉션
+
+java.lang.reflect 패키지에 있는 클래스 : Field, Method, Constructor
+
+클래스에 대한 각각의 정보를 확인할 수 있다.
+
+
+### 객체 조사하기부터
+
+클래스에 정의 되어있는 Field, Method, Constructor를 확인하는 방법
+
+필드 : 인스턴스.getClass().getDeclaredFields();
+
+메소드 : 인스턴스.getClass().getDeclaredMethods();
+
+생성자 : 인스턴스.getClass().getDeclaredConstructors();
+
+### 생성자 없는 객체 생성
+
+class클래스로 생성자 없는 객체를 생성할 수 있다.
+
+		Class<?> cl = emp.getClass();
+		
+		Employee emp2 = (Employee) cl.newInstance();
+		
+		
+### 자바빈즈(JavaBeans)
+
+인자없는 생성자, 필드의 getter/setter쌍, 기타메서드로 구성된 클래스
+
+

@@ -1,0 +1,22 @@
+package chapter4.src;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+
+public class TestLoader {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		
+		URL[] urls = {
+					new URL("file://core-java.jar")
+			};
+		
+		String className = "chapter4.src.TestLoader";
+		try(URLClassLoader loader = new URLClassLoader(urls)) {
+			Class<?> cl = Class.forName(className, true, loader);
+			System.out.println(cl.toString());
+		}
+	}
+}

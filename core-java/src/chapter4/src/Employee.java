@@ -40,10 +40,10 @@ public class Employee {
 //		return new Employee();
 //	}
 	
-	public Employee getSupervisor() {
-		
-		return new Employee();
-	}
+//	public Employee getSupervisor() {
+//		
+//		return new Employee();
+//	}
 	
 	
 	
@@ -97,9 +97,9 @@ class Manager extends Employee{  // �������̵��� �޼��
 		return super.worksFor(superviser);
 	}
 	
-	@Override
-	public Manager getSupervisor() {
-		// TODO Auto-generated method stub
-		return new Manager();
-	}
+//	@Override
+//	public Manager getSupervisor() {
+//		// TODO Auto-generated method stub
+//		return new Manager();
+//	}
 }

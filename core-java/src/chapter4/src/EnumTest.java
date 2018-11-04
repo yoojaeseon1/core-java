@@ -7,19 +7,20 @@ public class EnumTest {
 		Size notMySize = Size.valueOf("SMALL");
 
 		Size[] allValues = Size.values();
+		
+		System.out.println(notMySize);
 
-		// for(Size s : Size.values()) {
-		//
-		// }
+		 for(Size s : Size.values()) {
+			 System.out.println(s);
+		 }
 		
-		int result = eval(Operation.ADD, 1, 2);
-		
-		System.out.println(result);
-		
-		Size sizeTest = Size.valueOf("LARGE");
-		
-		System.out.println(sizeTest.getAbbreviation());
-
+//		int result = eval(Operation.ADD, 1, 2);
+//		
+//		System.out.println(result);
+//		
+//		Size sizeTest = Size.valueOf("LARGE");
+//		
+//		System.out.println(sizeTest.getAbbreviation());
 	}
 
 	public static int eval(Operation op, int arg1, int arg2) {

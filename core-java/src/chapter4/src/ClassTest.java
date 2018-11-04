@@ -1,6 +1,7 @@
 package chapter4.src;
 
-import java.util.List;
+import java.io.InputStream;
+import java.util.Scanner;
 
 public class ClassTest {
 
@@ -20,9 +21,22 @@ public class ClassTest {
 //		
 //		System.out.println(cl.getName());
 		
-		int a = 5;
-		Integer b = 5;
+		Class<?> cl1 = Runnable.class;
 		
+//		System.out.println(cl1.toString());
 		
+		InputStream stream = MyClass.class.getResourceAsStream("./test.txt");
+		
+		Scanner in = new Scanner(stream);
+		
+		in.nextLine();
+		
+//		File dirFile = new File("./");
+//		
+//		File[] fileList = dirFile.listFiles();
+//		
+//		for(File file : fileList) {
+//			System.out.println(file.getName());
+//		}
 	}
 }

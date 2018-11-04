@@ -1,7 +1,7 @@
 package chapter4.src;
 
 public enum Size {
-	SMALL("S"), DEMIUM("D"), LARGE("L"), EXTRA_LARGE("XL");
+	SMALL("S"), MEDIUM("D"), LARGE("L"), EXTRA_LARGE("XL");
 	
 	private String abbreviation;
 	
@@ -16,6 +16,4 @@ public enum Size {
 	public void setAbbreviation(String abbreviation) {
 		this.abbreviation = abbreviation;
 	}
-	
-	
 };

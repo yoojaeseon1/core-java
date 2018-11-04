@@ -1,0 +1,41 @@
+package chapter4.src;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+
+public class ReflectionTest {
+
+	public static void main(String[] args) throws ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
+
+//		Class<?> cl = Class.forName("chapter4.src.Employee");
+//
+//		while (cl != null) {
+//			for (Method m : cl.getDeclaredMethods()) {
+//				System.out.println(Modifier
+//						.toString(m.getModifiers()) + " " + m.getReturnType().getCanonicalName() + " " + m.getName() + Arrays.toString(m.getParameters()));
+//			}
+//			
+//			cl = cl.getSuperclass();
+//		}
+		
+		
+		Employee emp = new Employee();
+		
+		
+//		for(Field f : emp.getClass().getDeclaredFields()) {
+//		for(Method m : emp.getClass().getMethods()) {
+//			m.setAccessible(true);
+//			String value = m.getName();
+//			
+//			System.out.println(value);
+//		}
+		
+		Class<?> cl = emp.getClass();
+		
+		Employee emp2 = cl.newInstance();
+		
+	}
+
+}
