@@ -7,7 +7,6 @@ public class LoggingTest {
 	public static void main(String[] args) {
 		
 		Logger.getGlobal().info("haha");
-		
 
 	}
 

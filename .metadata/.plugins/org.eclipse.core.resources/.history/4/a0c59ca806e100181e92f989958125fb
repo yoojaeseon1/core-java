@@ -353,39 +353,27 @@ do{
 
 루프의 반복횟수가 i고정되어있을 때 적합하다.
 
-```
-
 for(int i = 0; i <= 20; i++) {
    int next = generator.nextInt(10);
    sum += next;
 }
-```
 
 선언부에서 변수를 선언하는 대신 기존 변수를 초기화 할 수도 있다.
 
-```
 for(i = 1; i <= target; i++) // 기존 변수 i를 사용한다.
 for(int i = 0, j = n – 1; i < j; i++, j--) // 여러 변수를 선언/초기화 하고 여러 변수를 업데이트 할 수있다.
 for(;;) // 무한루프
 
-```
-
 ##### 중단과 계속
 
 루프를 중간에 빠져나오기 위해서는(루프의 끝으로 이동) break문을 사용해야 한다.
-
-```
 
 while(true) {
    String input = in.nextInt();
    if(input.equals(“Q”)) break; // 표준 입출력으로 “Q”를 입력했을 경우 반복문을 빠져나온다.
 }
 
-```
-
 현재 루프 반복의 끝으로 건너뛰기 위해서는 continue문을 사용한다.
-
-```
 
 for(int i = 1; i <= target; i++){
    int input = in.nextInt();
@@ -400,8 +388,6 @@ while(...) {
    }
 }
 // 레이블을 붙인 break는 이 위치로 건너뛰게 한다.
-
-```
 
 
 ##### 지역 변수의 유효 범위

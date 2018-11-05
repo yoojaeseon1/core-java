@@ -1,6 +1,6 @@
 # 기본 프로그래밍 구조
 
-### HelloWorld
+###HelloWorld
 
 	public class HelloWorld {
 	
@@ -19,7 +19,7 @@ static : 특정 객체를 대상으로 동작하지 않게 한다(C의 global)
 void : 반환 값이 없다.
 
 
-### 자바 프로그램 컴파일, 실행
+###자바 프로그램 컴파일, 실행
 
 
 javac로 컴파일 > java로 실행
@@ -276,23 +276,21 @@ if(조건) {
    if와 else if의 조건에 맞지 않은 조건을 실행할 분기
 }
 
-```
+ex)
+
 if(count > 0) {
-double average = sum / count;
-System.out.println(average);
+   double average = sum / count;
+   System.out.println(average);
 } else if(count == 0) {
    System.out.println(0);
 } else {
    System.out.println(“Huh?”);
 }
-```
 
 
 ##### switch문
 
 제한된 개수의 상숫값을 기준으로 표현식을 검사할 때 사용한다.
-
-```
 
 switch(count) {
    case 0:
@@ -311,8 +309,6 @@ switch(count) {
 	output=“many”;
 	break;
 }
-
-```
 
 일치하는 case 레이블을 실행하고 일치하는 항목이 없을 경우 default레이블(있으면)을 실행한다.
 
@@ -353,39 +349,27 @@ do{
 
 루프의 반복횟수가 i고정되어있을 때 적합하다.
 
-```
-
 for(int i = 0; i <= 20; i++) {
    int next = generator.nextInt(10);
    sum += next;
 }
-```
 
 선언부에서 변수를 선언하는 대신 기존 변수를 초기화 할 수도 있다.
 
-```
 for(i = 1; i <= target; i++) // 기존 변수 i를 사용한다.
 for(int i = 0, j = n – 1; i < j; i++, j--) // 여러 변수를 선언/초기화 하고 여러 변수를 업데이트 할 수있다.
 for(;;) // 무한루프
 
-```
-
 ##### 중단과 계속
 
 루프를 중간에 빠져나오기 위해서는(루프의 끝으로 이동) break문을 사용해야 한다.
-
-```
 
 while(true) {
    String input = in.nextInt();
    if(input.equals(“Q”)) break; // 표준 입출력으로 “Q”를 입력했을 경우 반복문을 빠져나온다.
 }
 
-```
-
 현재 루프 반복의 끝으로 건너뛰기 위해서는 continue문을 사용한다.
-
-```
 
 for(int i = 1; i <= target; i++){
    int input = in.nextInt();
@@ -400,8 +384,6 @@ while(...) {
    }
 }
 // 레이블을 붙인 break는 이 위치로 건너뛰게 한다.
-
-```
 
 
 ##### 지역 변수의 유효 범위

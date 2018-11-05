@@ -2,12 +2,12 @@ package chapter3.src;
 
 import java.util.Arrays;
 
-	public class LengthComparator{
+	public class LengthComparator implements Comparable<String>{
 		
 		public static void main(String[] args) {
 			String[] list = {"Peter", "Paul", "Maryzzz"};
 			
-			Arrays.sort(list);
+			Arrays.sort(list, new LengthComparator());
 			
 			for(String str : list) {
 				System.out.println(str);
