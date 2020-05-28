@@ -11,6 +11,15 @@ public class Test {
 //			System.out.println(value);
 //		}
 		
+		final List<Integer> list = new ArrayList<>();
+		
+//		list = new ArrayList<>();
+		
+		list.clear();
+		
+		
+		
+		
 		for(int i = 0; i < values.length; i++) {
 			System.out.println(values[i]);
 		}
@@ -52,7 +61,48 @@ public class Test {
 //			System.out.println(str);
 //		}
 		
-		print(1,2,3,4,5,6,7,8,9);
+//		print(1,2,3,4,5,6,7,8,9);
+		
+//		double num = 123.123;
+		
+//		String addedNum = "hahahoho"+num;
+		
+//		System.out.println(addedNum);
+		
+//		String compared1 = new String("haha");
+////		String compared1 = "haha";
+//		
+//		String compared2 = "haha";
+//		
+//		System.out.println("compared1 : " + compared1);
+//		System.out.println(compared1.equals(compared2));
+		
+//		String str = "123456".substring(0,4);
+//		
+//		switch(str) {
+//			case "1234":
+//				System.out.println("1");
+//				break;
+//			case "234":
+//				System.out.println("2");
+//				break;
+//			default:
+//				System.out.println("3");
 
+//		}
+		
+//		char[] test = new char[10];
+//		
+//		System.out.println((int)test[0] == 0);
+		
+		printArray(1,2,3,4);
+
+	}
+	
+	public static void printArray(int num, int... array) {
+		
+		for(int element : array) {
+			System.out.println(element);
+		}
 	}
 }
