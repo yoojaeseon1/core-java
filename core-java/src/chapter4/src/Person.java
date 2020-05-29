@@ -1,8 +1,5 @@
 package chapter4.src;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Person {
 	
 	
@@ -32,7 +29,7 @@ public abstract class Person {
 
 	public static void main(String[] args) {
 		
-//		Person person = new Student();
+		Person person = new Student();
 //		
 //		List<String> names = new ArrayList<String>(100) {
 //			
