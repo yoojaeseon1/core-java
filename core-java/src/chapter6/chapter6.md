@@ -1,54 +1,77 @@
-# 제네릭 프로그래밍
+### 제네릭
 
-### 제네릭 클래스
+#### 제네릭 클래스
 
-타입 파라미터(K, V) 한 개 이상을 받는 클래스
+- 클래스 정의할 때 타입 파라미터를 1개 이상 받는 클래스
 
-	public class Entry<K,V> {
-		...
-	}
+- 해당 타입으로 필드의 타입, 메소드의 파라미터, 리턴타입으로 지정할 수 있다.
+
+	public class Entry<K,V>{
 	
-타입 파라미터의 자리에는 래퍼클래스가 와야된다(기본 타입 불가능)
-
-
-### 제네릭 메서드
-
-타입파라미터를 한 개 이상 받는 메서드 
-
-	public static <T> void swap(T[] array, int i, int j) {
-		...
+		private K key;
+		private V value;
+	
+		public Entry(K key, V value) {
+	
+			this.key = key;
+			this.value = value;
+		}
+	
+		public K getKey(){return this.key};
+		public V getvalue(){return this.value};
+	
 	}
 
-### 타입 경계
 
-타입 파라미터로 받는 파라미터의 타입을 제한 하는 것
 
-	public static <T extends AutoCloseable> void closeAll(ArrayList<T> elems) throws Exception {
-		for(T elem : elems) elem.close();
+- 인스턴스 생성
+
+	Entry<String,Integer> entry = new Entry<>();
+
+
+new Entry<>의 타입파라미터는 생략해도 선언에 있는 타입으로 자동으로 지정된다.
+
+
+---
+
+#### 제네릭 메소드
+
+- 메소드를 정의할 때 타입파라미터를 1개 이상 받는 메소드
+
+- 일반 클래스 / 제네릭 클래스 모두 사용할 수 있다.
+
+- 제어자와 리턴타입 사이에 타입 파라미터를 명시한다.
+
+		public static <T> void swap(T[] array, int i, int j) {
+		
+			T temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+			
+		}
+
+		swap(array, 0, 1);
+
+- 메소드 호출 시 타입 파라미터를 명시하지 않아도 컴파일러가 추론한다. (array에 타입 파라미터를 사용하고 타입이 String이니까)
+
+
+		Entry.<String>swap(array, 0 ,1);
+
+- 명시를 해 줄경우 더 자세한 오류메세지를 받을 수 있다.(강제로 던지면 쓰나 안쓰나 같은데 나중에 해보자)
+
+
+---
+
+#### 타입 경계
+
+- 타입 파라미터로 받을 수 있는 타입을 제한 할 수 있다.
+
+	public static <T extends AutoCloseable> void closeAll(List<T> elements) throws Exception{
+
+		for(T element : elements) {
+			element.close();
+		}
 	}
-	
-	AutoCloseable의 서브타입(ex) PrintStream)만 타입파라미터 자리에 올수 있다.
-	
-
-### 와일드 카드
-
-그냥 T로 하는거랑 무슨차이지...?
 
 
-### 제네릭의 제약
-
-1. 기본타입 인자가 없다
-
-- 래퍼클래스만 인자로 받을 수 있다.
-
-2. 실행시간에는 모든 타입이 row형태다.
-
-3. 타입변수의 인스턴스를 만들 수 없다.
-
-4. 파라미터화 된 타입의 배열을 생성할 수 없다.
-
-Entry<String, Integer>[] entries = new Entry<String, Integer>[100]; 와 같은 형태로 생성할 수 없다.
-
-5. 정적 컨텍스트에서는 클래스 타입 변수가 유효하지 않다.
-
-6. 메서드가 소거 후 충돌하지 않을 수도 있다.
+closeAll의 타입파라미터는 AutoCloseable의 서브타입으로 제한된다.
