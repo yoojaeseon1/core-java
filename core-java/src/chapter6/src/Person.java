@@ -1,4 +1,4 @@
-package chapter4.src2;
+package chapter6.src;
 
 public class Person{
 	
