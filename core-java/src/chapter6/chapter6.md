@@ -1,5 +1,7 @@
 ### 제네릭
 
+- 타입을 유동적으로 받을 수 있도록 해주는 장치
+
 #### 제네릭 클래스
 
 - 클래스 정의할 때 타입 파라미터를 1개 이상 받는 클래스
@@ -146,7 +148,7 @@ extends에 명시하는
 		}
 	}
 
-empl 인스턴스에는 Employee의 서브 클래스 인스턴스만 올 수 있다. 그렇기 때문에
+empl 인스턴스에는 Employee 또는 Employee의 서브 클래스 인스턴스만 올 수 있다. 그렇기 때문에
 
 	Employee e = staff.get(staffI);
 
@@ -162,7 +164,7 @@ empl 인스턴스에는 Employee의 서브 클래스 인스턴스만 올 수 있
 
 불가능하다.(제네릭 타입을 파라미터로 받는 모든 메소드에 해당)
 
-왜?? : x는 Employee의 어떤 서브클래스더라도 가능하다.
+왜?? : x는 Employee 또는 Employee의 어떤 서브클래스더라도 가능하다.
 
 하지만 Manager와 Janitor같은 Employee의 서브클래스의 경우
 
@@ -188,7 +190,7 @@ But
 
 	<? extends Employee>
 
-는 "Employee의 서브클래스인 모든 클래스"를 의미한다. Manager/Janitor가 Employee의 서브클래스인 것은 맞지만
+는 "Employee 또는 Employee의 서브클래스인 모든 클래스"를 의미한다. Manager/Janitor가 Employee의 서브클래스인 것은 맞지만
 
 	staff.add(new Manager());
 
@@ -238,3 +240,313 @@ Person이 Employee의 슈퍼클래스인 것은 맞지만, ?의 타입으로 초
 
 
 ---
+
+#### 타입변수 + 와일드카드
+
+- 타입변수에 와일드카드를 같이 사용해 메소드의 사용 범위를 서브/슈퍼 클래스로 넓힐 수 있다.
+
+		public static <T> void printAll(T[] elements, Predicate<T> filter) // 1번
+
+		public static <T> void printAll(T[] elements, Predicate<? super T> filter) // 2번
+
+
+1번 메소드는 T타입의 배열로 T타입하고만 element의 비교가 가능하다.
+
+하지만 T는 슈퍼클래스의 모든 필드/메소드를 포함하기 때문에 슈퍼클래스와의 비교도 가능하다.
+
+그렇기 때문에 슈퍼클래스와의 비교도 가능하도록 2번처럼 확장할 수 있다.
+
+---
+
+	public void addAll(Collection<? extends E> c)
+
+
+메소드의 파라미터로 addAll메소드가 있는 인터페이스의 제네릭 타입 또는 그 타입의 서브클래스가 와야 한다는 것이다.
+
+<E> 만 명시한다면 같은 타입만 받을 수 있지만
+
+공변성을 생각하면 서브클래스 타입도 추가할 수 있기 때문에 메소드의 사용 범위가 확장되는 것이다.
+
+
+---
+
+	public static <T extends Comparable<? super T>> void sort(List<T> list)
+
+
+T는 Comparable 인터페이스를 구현한 클래스여야 한다.
+
+ 
+	public interface Comparable<T> {
+		
+		public int compareTo(T o);
+	}
+
+Comparable은 제네릭 타입이기 때문에 타입 파라미터를 명시해야 한다.
+
+T가 특정 클래스를 상속 받았다면(확장 했다면) 슈퍼클래스의 compareTo메소드를 상속받는다.
+
+Employee 클래스
+
+	public class Employee implements Comparable<Employee>{
+	
+	
+		@Override
+		public int compareTo(Employee o) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+		
+	}
+
+
+Manager 클래스
+	
+	public class Manager extends Employee{
+		
+		@Override
+		public int compareTo(Employee o) {
+			
+			return super.compareTo(o);
+			
+		}
+	}	
+
+Employee를 상속받은 Manager는 Employee의 compareTo 메소드를 상속받아 그대로 사용하기 때문에 파라미터의 타입이 슈퍼클래스로 되어있다.
+
+	public static <T extends Comparable<? super T>> void sort(List<T> list)
+
+즉 T가 Comparable인터페이스를 구현한 클래스를 상속 받았다면 T의 제네릭 타입은 슈퍼클래스로 되어있다는 것이다.
+
+그렇기 때문에 Comparable의 제네릭 타입은 T또는 T의 슈퍼타입이 와야 한다.
+
+
+	Comparable<T>
+
+만 사용해도 T타입으로만 사용이 가능하지만 와일드카드를 같이 사용해 사용성을 확장한 것이다.
+
+---
+
+#### 경계(extends / super)가 없는 와일드카드
+
+- 타입파라미터를 제한하는 것이 중요하지 않을 때 사용할 수 있다.
+
+	public static boolean hasNulls(List<?> elements) {
+
+		for(Object e : elements){
+			if(e==null)
+				return true;
+		}
+		return false;
+	}
+
+
+list의 타입은 중요하지 않다. 모든 인스턴스는 null이 될 수 있기 때문이다.
+
+	public static <T> boolean hasNulls(List<T> list)
+
+를 해도 같은 동작을 하지만 특정 타입으로 제한하는 것이 아니기 때문에 T의 의미는 크지 않다.
+
+---
+
+#### 와일드카드 캡처
+
+- 와일드카드는 메소드 안에서 파라미터의 타입으로만 사용가능하다.(타입으로 사용될 수 없다.)
+
+		public static void swap(List<?> elements, int i, int j) { // 와일드 카드를 포함하는 일반 메소드(제네릭 메소드X)
+	
+			? temp = elements.get(i); // 에러 발생
+	
+			elements.set(i, elements.get(j));
+			elements.set(j, temp);
+		}
+
+헬퍼 메소드를 사용해 해결할 수 있다.
+
+
+	public static void swap(List<?> elements, int i, int j) {
+
+		swapHelper(elements, i, j);
+	}
+
+	public static <T> void swapHelper(List<T> elements, int i, int j) { // 제네릭 메소드
+
+		T temp = elements.get(i);
+		elements.set(i, elements.get(j));
+		elements.set(j, temp);
+	}
+
+
+컴파일러는 ?가 뭔지 모른다. 하지만 ?는 특정 타입을 나타내기 때문에 제네릭 메서드를 호출해도 된다.
+
+swapHelper의 타입파라미터 T는 swap의 와일드카드 타입(?)을 "캡처"한 것이다.
+
+캡처했을 때의 장점 : API사용자가 제네릭 메서드보다 이해하기 쉬운 List<?>를 볼 수 있다는 것이다.
+
+
+---
+
+### JVM에서의 제네릭
+
+#### 타입소거(Type Erasure)
+
+- .java파일에서 타입 파라미터로 정의된 필드의 타입/ 메소드의 리턴타입을 컴파일 과정에서 Object로 변환한다.(low type으로 변환했다고 한다.)
+
+	public class Entry<K, V> {
+		private K key;
+		private V value;
+		
+		public Entry(){
+			
+		}
+		
+		public Entry(K key, V value) {
+			this.key = key;
+			this.value = value;
+		}
+	
+		public K getKey() {
+			return key;
+		}
+	
+		public V getValue() {
+			return value;
+		}
+	}
+
+의 코드가 컴파일 단계에서
+
+	private Object key;
+	private Object value;
+	
+	public Entry(){
+		
+	}
+	
+	public Entry(Object key, Object value) {
+		this.key = key;
+		this.value = value;
+	}
+
+	public Object getKey() {
+		return key;
+	}
+
+	public Object getValue() {
+		return value;
+	}
+
+로 변환된다.
+
+---
+
+Entry의 제네릭 타입이
+
+	public class Entry<K extends Comparable<? super K> & Serializable, V extends Serializable>{...}
+
+
+일 경우
+
+	public class Entry{
+
+		private Comparable key;
+		private Serializable value;
+
+		...
+	}
+
+로 변환된다. (& 사용한 것 알아보자)
+
+K가 Comparable 인터페이스를 구현했다면 K 타입인 key는 Comparable을 구현한 어떤 클래스도 올 수 있다.
+
+V도 마찬가지
+
+---
+
+#### 타입 변환 연산자 삽입
+
+	Entry<String, Integer>
+
+일 떄 key와 value는 반드시 String, Integer 타입인 것을 보장받아야 한다.
+
+
+key로 
+
+	String key = "jaeseon";
+
+	Object key = "jaeseon";
+
+
+을 넣는다면 key의 값이 중복되지만 타입이 다르므로 둘다 넣을 수 있다.
+
+	String key = entry.getKey();
+
+그렇기 떄문에 실행 시간에 안전성 검사를 해야한다.
+
+일 때 컴파일러는 타입변환 연산자를 삽입(캐스팅)한 코드를 생성한다.(low type으로 변환된 코드)
+
+	String key = (String)entry.getKey();
+
+---
+
+#### 브릿지 메소드
+
+- 컴파일러가 제네릭 타입의 메소드를 호출할 때
+
+변수들의 타입을 Object로 변환 -> 제네틱타입으로 다운 캐스팅하는 메소드
+
+- 동적 메소드 조회 : 컴파일러는 이렇게 .java파일의 메소드와 대응하는 브릿지 메소드를 만든 후 브릿지 메소드를 찾아 호출하는 것
+
+	public class WordList extends ArrayList<String>{
+		
+		public boolean add(String e) {
+			
+			 return super.add(e);
+			 
+		}
+
+		public String get(int i) {
+			return super.get(i).toLowerCase();
+		}
+	}
+
+
+	WordList words = new WordList();
+	List<String> strings = words;
+	String.add("Java");
+
+
+컴파일러가
+
+	public boolean add(Object e) {
+		return add((String) e);
+	}
+
+와 같은 브릿지 메소드를 만들고 호출한다.
+
+get 메소드의 경우 WordList클래스에
+
+String get(int)
+Object get(int)
+
+두 가지 메소드가 있다.
+
+컴파일러는 두 번째 메소드에 해당하는 브릿지 메소드만들어서 호출한다.
+
+자바 문법으로는 불가능한 소스다.(메소드 시그니처로 구분하기 때문이다.)
+
+메소드 시그니처 : 메소드명, 파라미터 타입의 종류/개수(리턴타입/exception X)
+
+하지만 JVM에서는 메소드를 이름, 파라미터 타입, 리턴 타입으로 구분하기 때문에 컴파일이 완료된 .class파일에서는 가능한 문법이다.
+
+---
+
+### 제네릭의 제약
+
+#### 기본타입 파라미터가 없다.
+
+- 컴파일 단계에서 타입 파라미터로 생성된 변수의 타입을 모두 Object로 바꾸기 때문이다.
+
+- 기본형 변수는 객체가 아니기 때문에 Object타입이 될 수 없다.
+
+---
+
