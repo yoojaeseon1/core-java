@@ -30,7 +30,7 @@
 	}
 
 
-![IteratorTest](../imgs/IteratorTest.jpg)
+![IteratorTest](../imgs/IteratorTest.JPG)
 
 1. HashSet 메소드 생성
 
