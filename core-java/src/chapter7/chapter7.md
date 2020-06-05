@@ -30,7 +30,7 @@
 	}
 
 
-![IteratorTest](C:\Users\yoo-pc\Desktop\byteCodes\IteratorTest.jpg)
+![IteratorTest](../imgs/IteratorTest.jpg)
 
 1. HashSet 메소드 생성
 
