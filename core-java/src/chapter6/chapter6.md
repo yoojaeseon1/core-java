@@ -550,3 +550,21 @@ Object get(int)
 
 ---
 
+#### 실행시간에는 모든 타입이 low 형태
+
+	if(a instanceof ArrayList<String>)
+
+- 컴파일 과정을 거치면서 low 타입으로 변한다. 그 이후의 런타임 단계에서 역시 위의 ArrayList가 String 타입을 담고 있는지 알 수 없다.
+
+- 컴파일 과정에서 이미 정확한 타입을 알 수 없는 low type으로 변하기 때문에 컴파일 에러가 발생한다.
+
+		C:\Users\yoo-pc\Desktop\compileTest>javac Entry.java
+		Entry.java:66: error: illegal generic type for instanceof
+		                if(list instanceof ArrayList<String>) {
+		                                            ^
+		1 error
+
+
+cmd창에서 컴파일러를 실행하면 위와 같은 오류가 발생한다.
+
+

@@ -1,5 +1,8 @@
 package chapter6.src.genericTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Entry<K, V> {
 	
 	private K key;
@@ -50,6 +53,21 @@ public class Entry<K, V> {
 		
 		String key = entry.getKey();
 		int value = entry.getValue();
+		
+		List<String> list = new ArrayList<>();
+		
+		
+		Object result = new Object();
+		
+		List<Employee> empls = (List<Employee>)result;
+		
+//		@SuppressWarnings("unchecked")List<Employee> empls = (List<Employee>)result;
+		
+//		System.out.println(key.getClass());
+		
+//		if(list instanceof ArrayList<String>) {
+//			System.out.println("haha");
+//		}
 		
 	}
 }
