@@ -48,6 +48,8 @@
 
 ### Iterator(반복자)
 
+- element의 순회를 위한 인터페이스
+
 - 특정 순서로 element를 순회한다.(set, map의 인덱스가 없으므로 정해진 순서가 없다.)
 
 - forEach(향상된 for)문으로 set/list를 실행하면 내부적으로 iterator를 생성하고 iterator.next()메소드를 호출한다.(map은 entry(key,value동시에)/key/value로 구분해서 iterator를 호출해야 한다.)
@@ -126,6 +128,52 @@ PRESENT 인스턴스로 채운다.(사용하지 않으니까 하나로 돌려막
 
 	- 제네릭 타입으로 사용하는 클래스에서 Comparable 인터페이스를 구현한다.
 	- 생성자의 인자로 Comparator 인터페이스를 전달한다.
+
+##### sortedSet
+
+- NavigableSet 인터페이스를 상속받았다.
+- TreeSet에 구현되어 있다.
+
+	SortedSet<Integer> sortedSet = new TreeSet<>();
+	
+	sortedSet.add(3);
+	sortedSet.add(1);
+	sortedSet.add(2);
+	
+
+	System.out.println(sortedSet.first());
+	System.out.println(sortedSet.last());
+
+출력
+
+1
+3
+
+---
+
+##### NavigableSet
+
+- TreeSet에 구현되어 있다.
+
+	NavigableSet<Integer> navigableSet = new TreeSet<>();
+	
+	navigableSet.add(3);
+	navigableSet.add(1);
+	navigableSet.add(5);
+	navigableSet.add(4);
+	navigableSet.add(2);
+
+	System.out.println(navigableSet.higher(2)); // 큰 값중에 가장 가까운 값
+	System.out.println(navigableSet.celilng(2)); // 이상의 값(파라미터 포함)
+	System.out.println(navigableSet.floor(5)); // 이하의 값(파라미터 포함)
+	System.out.println(navigableSet.lower(5)); // 작은 값중 가장 가까운 값
+
+출력
+
+3
+2
+5
+4
 
 ##### Comparable vs Comparator
 
@@ -281,7 +329,7 @@ put 메소드를 내부에서 실행되는 메소드
 	final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {...}
 
 
-- hash : key값을 사용해 hash값을 만들어 낸다.
+- hash : key값으로 hash값을 만들어 낸다.
 - key/value : 입력받은 key/value값
 - onlyIfAbsent : true일 경우 기존에 있던 key값에 put해도 value값을 교체하지 않는다.
 - evict : false일 경우 table(put된 Node가 저장되어 있는 array) 생성모드가 된다.(뭔말인지 모르겠네)
@@ -311,7 +359,7 @@ put 메소드를 내부에서 실행되는 메소드
 순수한 Object 인스턴스는 Comparable 인터페이스를 구현하지 않기 때문에 캐스팅 했을 때 compareTo 메소드가 구현되어있지 않다면 Exception이 발생하는 것이다.
 
 
-- TreeMap은 HashMap의 Node 대신 TreeMap.Entry를 사용한다.(Map.Entry 구현)
+- TreeMap은 HashMap의 Node 대신 static final class인 TreeMap.Entry를 사용한다.(Map.Entry 구현)
 
 - Node의 기능 + 순서와 관련된 메소드가 추가되어있다.(ex) getFirstEntry, getLastEntry, successor 등)
 
@@ -329,6 +377,19 @@ put 메소드를 내부에서 실행되는 메소드
 	- HashMap은 내부 클래스로 Node 사용(Map.Entry 구현)
 	- TreeMap은 내부 클래스로 Entry(TreeMap.Entry) 사용(Map.Entry 구현, 정렬을 위해 더 많은 메소드가 있다.)
 
+#### TreeMap.Entry가 private static class인 이유
+
+- TreeMap 클래스 내부에서만 생성할 수 있도록 하기 위해서
+- Map.Entry는 인터페이스고 그것을 구현한 TreeMap.Entry는 TreeMap 안에서 탐색을 위한 node의 용도로만 사용된다.
+
+
+---
+
+#### SortedMap / NavigableMap
+
+- SortedSet과 NavigableSet은 대응되는 Map에서 key값만 사용한 것이다.
+
+ 
 
 ---
 

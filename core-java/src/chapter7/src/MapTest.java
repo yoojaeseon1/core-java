@@ -13,7 +13,7 @@ public class MapTest {
 		
 //		Map<Integer,Integer> map = new HashMap<>();
 //		
-//		Map<Person, Integer> treeMap = new TreeMap<>();
+		Map<Person, Integer> treeMap = new TreeMap<>();
 //		
 //		Object obj = new Object();
 //		

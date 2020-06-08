@@ -1,5 +1,11 @@
 # 객체지향 프로그래밍
 
+### 제어자
+
+접근제어자 : public, defualt, protected, private
+
+그 외 제어자 : static, final, abstract, native, syncronized, transient
+
 ### 접근자메서드
 
 호출 대상객체를 변경하지 않는 메서드
@@ -73,7 +79,7 @@ people은 객체가 아닌 크기가 2인 배열 리스트 객체에 대한 참�
 	
 	fred.raiseSalary(5);
 
-raiseSalary 메서드는 클래스의 인스턴스에 동작한다. 이런 메서드를 인스턴트 메서드라고 한다. 
+raiseSalary 메서드는 클래스의 인스턴스에 동작한다. 이런 메서드를 인스턴트 메서드라고 한다.
 
 자바에서는 static을 선언하지 않은 메서드는 모두 인스턴스 메서드이다.
 
@@ -100,8 +106,7 @@ salary가 메서드 내부에서 선언되어있지 않으면 필드를 사용�
 
 생성자는 new 연산자로 실행하고 new 연산자는 생성된 객체의 참조를 반환한다.
 
-Employee james = new Employee(“James Bond”, 500000);
-
+	Employee james = new Employee(“James Bond”, 500000);
 
 	public Employee() {
 
@@ -271,7 +276,13 @@ sqrt(pow(x,2) + pow(y,2)); // Math.sqrt와 Math.pow를 의미한다.
 
 ### 정적 중첩 클래스
 
-클래스 내부에 정의된 클래스 중에서 static으로 선언된 클래스다.
+- 클래스 내부에 정의된 클래스 중에서 static으로 선언된 클래스다.
+
+- outer 클래스의 static 멤버로 사용되는 클래스다.
+
+- outer 클래스의 인스턴스를 만들지 않아도 static 멤버에 접근할 수 있다.
+
+- outer 클래스의 인스턴스 변수/메소드에 접근할 수 없다.
 
 #### private로 만든 경우
 
