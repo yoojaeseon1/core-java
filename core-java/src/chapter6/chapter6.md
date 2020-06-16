@@ -102,7 +102,8 @@ closeAll의 타입파라미터는 AutoCloseable의 서브타입으로 제한된�
 extends에 명시하는
 
 - 인터페이스는 원하는만큼 지정가능
-- 클래스는 하나만 지정가능(지정할 때는 경계목록 중 첫 번째 항목으로 둬야 한다.)
+- 클래스는 하나만 지정가능(지정할 때는 
+- 목록 중 첫 번째 항목으로 둬야 한다.)
 
 ---
 
@@ -134,19 +135,19 @@ extends에 명시하는
 
 #### 서브타입의 와일드카드
 
-<? extends className>
+	<? extends className>
 
 - 서브타입의 와일드 카드를 사용할 때는 읽기만 가능하고 쓰기는 불가능하다.
 
 
-	public static void printNames(List<? extends Employee> staff) {
-
-		for(int staffI = 0; staffI < staff.size(); staffI++){
-
-			Employee empl = staff.get(staffI);
-			System.out.println(empl.getName());
+		public static void printNames(List<? extends Employee> staff) {
+		
+			for(int staffI = 0; staffI < staff.size(); staffI++){
+		
+				Employee empl = staff.get(staffI);
+				System.out.println(empl.getName());
+			}
 		}
-	}
 
 empl 인스턴스에는 Employee 또는 Employee의 서브 클래스 인스턴스만 올 수 있다. 그렇기 때문에
 

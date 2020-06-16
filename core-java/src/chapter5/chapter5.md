@@ -88,7 +88,9 @@ ex) ClassNotFoundException : 클래스를 로더를 실행하는 도중 발생(�
 (정리 없이 핸들러로 넘어가 버리면 파일의 경우 일부만 쓰기가 될 수도 있는 비정상적인 경우가 발생한다.)
 
 - resource가 되는 클래스는 반드시 AutoCloseable 인터페이스를 구현한 클래스여야 한다.
-- try문에서 도중에 exception을 catch하거나 끝까지 실행되 종료되었을 경우 AutoCloseable 인터이스의 close메소드를 강제로 호출하기 때문이다.
+
+- try문에서 도중에 exception을 catch하거나 끝까지 실행되 종료되었을 경우 AutoCloseable 인터페이스의 close메소드를 강제로 호출하기 때문이다.
+
 - 그렇기 때문에 따로 close메소드를 호출하지 않아도 된다.
 
 ex
