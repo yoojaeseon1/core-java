@@ -180,12 +180,18 @@ Janitor 타입에 Manager를 add
 
 - 정리
 
-<? extends Employee>를 Employee로 변환할 수 있다. : Employee를 포함한 서브클래스들은 모두 Employee타입으로 받을 수 있다.
+	<? extends Employee>
+
+를 Employee로 변환할 수 있다. : Employee를 포함한 서브클래스들은 모두 Employee타입으로 받을 수 있다.
 
 
 But
 
-어떤 것도 절대 <? extends Employee>로 변환할 수 없다.
+어떤 것도 절대 
+
+	<? extends Employee>
+
+로 변환할 수 없다.
 
 왜?? : Employee를 상속 받았다고 해서 그 클래스들 끼리 슈퍼-서브의 관계라는 것을 보장할 수 없으니까.
 
