@@ -23,6 +23,8 @@
 
 parallelStream을 사용하면 필터링과 카운팅을 병렬로 수행한다.
 
+연산의 결과 값은 long 타입으로 리턴된다.
+
 ### parallelStream
 
 - 연산을 병렬로 처리할 수 있게 해준다.(multi-thread)
