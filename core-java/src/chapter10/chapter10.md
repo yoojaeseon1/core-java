@@ -196,34 +196,34 @@ goodbye 1~100
 
 - ExecutorCompletionService를 사용하면 된다.
 
-	String[] words = { "abcde", "hahaoho", "pop", "ppp" };
-
-	List<Callable<Integer>> tasks = new ArrayList<>();
-	tasks.add(() -> {
-		for (int i = 1; i < 1000; i++) {
-			System.out.println("task : " + i);
-		}
-		return  0;
-	});
-
-	List<Callable<Integer>> otherTasks = new ArrayList<>();
-
-	otherTasks.add(() -> {
-		for (int i = 1; i < 1000; i++) {
-			System.out.println("otherTask : " + i);
-		}
-		return  0;
-	});
-
-	ExecutorService executor = Executors.newCachedThreadPool();
-
-	ExecutorCompletionService<Integer> service = new ExecutorCompletionService<>(executor);
-
-	for (Callable<Integer> task : tasks)
-		service.submit(task);
-
-	for (Callable<Integer> task : otherTasks)
-		service.submit(task);
+		String[] words = { "abcde", "hahaoho", "pop", "ppp" };
+	
+		List<Callable<Integer>> tasks = new ArrayList<>();
+		tasks.add(() -> {
+			for (int i = 1; i < 1000; i++) {
+				System.out.println("task : " + i);
+			}
+			return  0;
+		});
+	
+		List<Callable<Integer>> otherTasks = new ArrayList<>();
+	
+		otherTasks.add(() -> {
+			for (int i = 1; i < 1000; i++) {
+				System.out.println("otherTask : " + i);
+			}
+			return  0;
+		});
+	
+		ExecutorService executor = Executors.newCachedThreadPool();
+	
+		ExecutorCompletionService<Integer> service = new ExecutorCompletionService<>(executor);
+	
+		for (Callable<Integer> task : tasks)
+			service.submit(task);
+	
+		for (Callable<Integer> task : otherTasks)
+			service.submit(task);
 
 
 
@@ -723,19 +723,19 @@ poll을 100번 실행하기는 하지만 enqueue 되어있지 않아도 실행�
 
 - TreeMap / TreeSet의 thread safe한 버전이다.
 
-	ConcurrentMap<String, Integer> map = new ConcurrentSkipListMap<>(Collections.reverseOrder());
-	
-	map.putIfAbsent("1", 1);
-	map.putIfAbsent("3", 1);
-	map.putIfAbsent("4", 1);
-	map.putIfAbsent("2", 1);
-	map.putIfAbsent("5", 1);
-	
-	Iterator<String> keyIter = map.keySet().iterator();
-	
-	while(keyIter.hasNext()) {
-		System.out.println(keyIter.next());
-	}
+		ConcurrentMap<String, Integer> map = new ConcurrentSkipListMap<>(Collections.reverseOrder());
+		
+		map.putIfAbsent("1", 1);
+		map.putIfAbsent("3", 1);
+		map.putIfAbsent("4", 1);
+		map.putIfAbsent("2", 1);
+		map.putIfAbsent("5", 1);
+		
+		Iterator<String> keyIter = map.keySet().iterator();
+		
+		while(keyIter.hasNext()) {
+			System.out.println(keyIter.next());
+		}
 
 출력
 
@@ -772,21 +772,21 @@ poll을 100번 실행하기는 하지만 enqueue 되어있지 않아도 실행�
 
 - keySet으로 만들어진 set view에서 element를 지우면 keySet을 만든 source map의 key값도 지워진다.
 
-	Map<String, Integer> hashMap = new HashMap<>();
+		Map<String, Integer> hashMap = new HashMap<>();
+		
+		Set<String> concurrentSet = concurrentMap.keySet();
 	
-	Set<String> concurrentSet = concurrentMap.keySet();
-
-	hashMap.put("1", 1);
-	hashMap.put("2", 2);
-	hashMap.put("3", 3);
-
-	Set<String> hashSet = hashMap.keySet();
+		hashMap.put("1", 1);
+		hashMap.put("2", 2);
+		hashMap.put("3", 3);
 	
-	hashSet.remove("2");
-	
-	int finededValue = hashMap.getOrDefault("2", 0);
-	
-	System.out.println(finededValue);
+		Set<String> hashSet = hashMap.keySet();
+		
+		hashSet.remove("2");
+		
+		int finededValue = hashMap.getOrDefault("2", 0);
+		
+		System.out.println(finededValue);
 
 
 출력
@@ -806,4 +806,643 @@ poll을 100번 실행하기는 하지만 enqueue 되어있지 않아도 실행�
 를 했을 때 value값으로 default value가 추가된다고 하는데 파라미터를 받는 keySet이 ConcurrentHashMap에는 있는데 실행이 안되네?? 왜 안되지(HashMap에는 없다.)
 
 ---
+
+### Atomic Value(원잣값)
+
+- 스레드에서 공유자원의 원잣값을 가지고 연산을 하게되면 다른 스레드에서 자원에 접근해도 경쟁없이 연산이 가능하다.
+
+- 원잣값을 연산하는 클래스를 자바에서 제공한다.
+
+		AtomicLong nextNumber = new AtomicLong(); // 생성자에 초기값 설정가능(default value : 0)
+		
+		System.out.println(nextNumber.get()); // 인스턴스의 값을 가져온다.
+		
+		System.out.println(nextNumber.incrementAndGet());
+		
+		long compared = 1000;
+		
+		nextNumber.set(Math.max(nextNumber.get(), compared));
+		
+		nextNumber.updateAndGet(x->Math.max(x, compared)); 
+
+
+---
+
+	nextNumber.incrementAndGet()
+
+값 1증가 -> 값 읽기 의 두 개의 연산을 원자적으로 처리한다. 그렇기 때문에 thread safe하다.
+
+
+---
+
+set(설정할 값)
+
+	nextNumber.set(Math.max(nextNumber.get(), compared));
+
+
+set과 get메소드는 각각 원자적이지만 두개의 메소드를 사용했기 때문에 전체 과정이 원자적이지 않다.
+
+nextNumber의 값을 다른 thread에서 바꿔서 원하지 않는 값이 넘어올 수도 있다.
+
+---
+
+updteAndGet(LongUnaryOperator)
+
+	nextNumber.updateAndGet(x->Math.max(x, compared));
+
+set과 get메소드를 하나의 메소드로 처리한다. 원자적으로 처리되기 때문에 thread safe하다.
+
+---
+
+accumulateAndGet(비교할 대상, LongBinaryOperator)
+
+	nextNumber.accumulateAndGet(compared, Math::max);
+
+updateAndGet과 같은 동작을 한다.(두 개의 파라미터를 받는 것만 다르다.)
+
+---
+
+위의 메소드는 연산 -> 읽기를 실행한다.
+
+getAndUpdate, getAndAccumulate 메소드는 읽기 -> 연산을 수행해 연산되기 전의 값을 읽어온다.(thread safe)
+
+---
+
+#### LongAdder
+
+- counter의 배열(Cell[] cells)을 가지고 thread별로 하나의 인덱스에 값을 업데이트 할 수 있도록 한다.
+
+- 각각의 thread는 해당 인덱스의 값만 업데이트하기 때문에 thread safe하다.
+
+- 모든 thread의 연산이 끝난 이후에 합계 값을 구하는 경우에 사용하면 AtomicLong보다 훨씬 효율적이다.
+
+
+		LongAdder count = new LongAdder();
+		
+		
+		Runnable adder1 = () ->{
+			count.add(5);
+			count.increment();
+		};
+		
+		Runnable adder2 = () ->{
+			count.increment();
+		};
+		
+		Runnable adder3 = () ->{
+			count.add(3);
+			count.increment();
+		};
+		
+		Runnable sleeper = () -> {
+			try {
+				Thread.sleep(3000);
+				System.out.println(count.sum());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+		};
+		
+		Executor executor = Executors.newCachedThreadPool();
+		
+		executor.execute(adder1);
+		executor.execute(adder2);
+		executor.execute(adder3);
+		executor.execute(sleeper);
+
+
+출력
+
+	11
+
+---
+
+### LongAccumulator
+
+- 생성자에 수행할 연산과 초기 값을 입력한다.
+- accumulate메소드를 호출하면 파라미터로 작성한 값에 생성자에 작성한 연산을 수행한다.
+- LongAdder와 같은 방식으로 돌아가지만 연산방식을 정할 수 있다는 장점이 있다.
+
+		LongAccumulator accumulator = new LongAccumulator(Long::max, 8);
+		
+		Runnable adder1 = () ->{
+			accumulator.accumulate(3);
+		};
+		
+		Runnable adder2 = () ->{
+			accumulator.accumulate(10);
+		};
+		
+		Runnable adder3 = () ->{
+			accumulator.accumulate(5);
+		};
+		
+		Runnable sleeper = () -> {
+			try {
+				Thread.sleep(3000);
+				System.out.println(accumulator.get());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+		};
+		
+		Executor executor = Executors.newCachedThreadPool();
+		
+		executor.execute(adder1);
+		executor.execute(adder2);
+		executor.execute(adder3);
+		executor.execute(sleeper);
+
+출력
+
+	10	
+
+
+---
+
+double값을 다루는 DoubleAdder, DoubleAccumulator도 있다.
+
+---
+
+
+### 재 진입 가능 잠금
+
+- Critical Session(임계영역) : 인터럽션 없이 온전히 하나의 스레드가 실행되어야 하는 영역
+
+- Lock을 활용해 명시적으로 임계영역을 설정할 수 있다.
+
+lock_correct
+
+![IteratorTest](../imgs/lock_correct.JPG)
+
+---
+
+lock_incorrect
+
+![IteratorTest](../imgs/lock_incorrect.JPG)
+
+- 헷갈린 이유
+
+	- incorrect도 비효율 적이긴 하지만 공유자원인 count를 영역안에 두었기 때문에 문제 없을 것이라고 생각
+
+- 해결 방법
+	
+	- 임계영역은 "Thread"안에서 공유 자원을 사용할 떄 생기는 것이다. 그렇기 때문에 각각의 Thread 내부에서 lock과 unlock을 하는 것이 맞다.
+
+- finally를 사용한 이유
+	- 임계영역의 실행이 정상적으로 종료되든 Exception이 발생해서 종료되든 lock은 풀려야 하기 때문에
+	- 그래야 공유자원에 접근하는 다른 thread들이 실행될 수 있다.(lock이 영구적으로 걸려있는 것을 방지한다.)
+	- 
+---
+
+lock_correct 출력
+
+	1 : 1000
+	2 : 2000
+	3 : 3000
+	12 : 4000
+	...
+	99 : 97000
+	91 : 98000
+	96 : 99000
+	98 : 100000
+
+
+---
+
+lock_incorrect 출력
+
+	1 : 1853
+	2 : 1853
+	4 : 3485
+	3 : 2853
+	...
+	96 : 70228
+	45 : 70228
+	98 : 70228
+	93 : 71228
+
+
+- lock은 최후의 수단으로 사용해야한다. 공유 자원의 사용을 피하기 위해 thread safe한 ConcurrentHashMap이나 LongAdder같은 자료구조를 사용하는 것이 좋다.
+
+---
+
+### synchronized를 사용한 비명시적인 임계영역 설정
+
+- intrinsicLock : 모든 객체가 가지고 있는 고유한 lock(= monitorLock / monitor)
+
+- 객체가 고유하게 가지고있는 instrinsicLock 사용해 lock을 명시하지 않고 임계영역에 잠금을 할 수 있다.
+
+- 메소드를 synchronized로 선언한 경우
+
+		public synchronized void setCount(int count) {
+			this.count = count;
+		}
+
+
+	위의 코드는 다음과 같다.
+
+		pubilc void setCount(int count) {
+			
+			this.intrinsicLock.lock();
+			try{
+				this.count = count;
+			} finally {
+				this.intrinsicLock.unlock();
+			}
+		}
+
+intrinsicLock은 실제로 있는 객체는 아니고 객체 별로 고유한 lock을 가지고 있음을 예시로 든 것이다.
+
+	public class LockTest {
+	
+		private int count;
+	
+		public LockTest() {
+			count = 0;
+		}
+	
+		public synchronized void addCount() {
+			for(int i = 1; i <= 1000; i++) {
+				this.count++;
+			}
+		}
+		
+	
+		public static void main(String[] args){
+	
+			Lock countLock = new ReentrantLock();
+	
+			Executor executor = Executors.newCachedThreadPool();
+	
+			LockTest test = new LockTest();
+	
+			for (int i = 1; i <= 100; i++) {
+				int taskId = i;
+				executor.execute(() -> {
+					test.addCount();
+						System.out.println(taskId + " : " + test.getCount());
+				});
+			}
+		}
+
+
+출력
+
+	1 : 2000
+	4 : 4000
+	3 : 3000
+	2 : 2000
+	...
+	96 : 95000
+	100 : 99000
+	98 : 97000
+	93 : 100000
+
+100000은 나오긴 하는데 왜 task1이랑 task2에서 같은 시기에 접근하는 걸까??(lock이 되었으면 안 걸렸을 텐데, 1/2말고도 같은 값을 가지는 task들이 있다.)
+
+
+---
+
+#### 조건 대기
+
+- 특정 조건에서 thread가 실행을 멈추고 대기해야 할 경우가 생길 수 있다.
+
+- wait()메소드를 사용하면된다.(Object 클래스의 메소드다.)
+
+		public class MyQueue<E> {
+		
+			class Node {
+				E value;
+				Node next;
+			}
+		
+			private Node head;
+			private Node tail;
+		
+			public MyQueue() {
+		
+			}
+		
+			public synchronized void put(E element) {
+		
+				Node node = new Node();
+				if (head == null)
+					head = node;
+				else
+					tail.next = node; // 현재 tail의 next(다음 tail)에 node를 참조
+				tail = node;
+				tail.value = element;
+				notifyAll();
+			}
+		
+			public synchronized E take() throws InterruptedException {
+				while (head == null)
+					wait();
+		
+				E headElement = this.head.value;
+				this.head = head.next;
+				return headElement;
+		
+			}
+		
+			public static void main(String[] args) {
+		
+				MyQueue<Integer> queue = new MyQueue<>();
+		
+				Executor executor = Executors.newCachedThreadPool();
+		
+				executor.execute(() -> {
+					for (int i = 1; i <= 1000; i++) {
+						queue.put(i);
+					}
+				});
+		
+				executor.execute(() -> {
+					for (int i = 1; i <= 1000; i++)
+						try {
+							System.out.println(queue.take());
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+				});
+		
+			}
+		}
+
+출력
+
+1~1000까지 100개의 element가 모두 출력된다.
+
+---
+
+#### wait
+
+	while (head == null)
+		wait();
+
+큐가 비어있을 경우에 해당 thread는 element가 추가될 때까지 blocking되어 있어야 한다.
+
+wait 메소드를 호출하면 thread는 해당 객체의 wait set(대기집합)에 들어가게 된다.
+
+wait set에 들어가있는 thread는 notifyAll/notify 메소드를 호출해야만 나올 수 있다.(큐에 element가 생겼어도 notifyAll 호출 없이는 나오지 못한다.)
+
+---
+
+#### notifyAll
+
+	public synchronized void put(E element) {
+		...
+		notifyAll();
+	}
+
+element를 추가하고 wait set에 있는 thread를 나오게 만드는 notifyAll메소드를 호출했다.
+
+notifyAll 메소드는 wait set에서 꺼내주는 것 뿐이지 take메소드의 wait다음 부분을 실행 할 수있게 해주는 것이 아니다.
+
+다시 큐가 비었는지 확인하고 wait set으로 다시 올지 wait 다음 코드를 실행할지 다시 결정하는 것이다.
+
+---
+
+#### notify
+
+notify메소드도 있지만 이 메소드를 사용한다면 wait set에 있는 thread 중 하나만 활성화 시킨다.
+
+이 thread가 다시 조건에 맞지 않아 blocking 될 수 있다. 이 때 다른 thread에서 notify를 다시 호출해주지 않으면
+
+프로그램은 교착상태에 빠지게 된다.
+
+---
+
+### Thread 클래스
+
+- Thread 대신 Executor를 사용하는 것이 더 좋지만(실행되는 스레드들을 관리해주니까) 직접 사용하는 방법도 알아두면 좋다.
+
+		public static void main(String[] args) throws InterruptedException {
+	
+			
+			Runnable task = () -> {
+				for(int i = 1; i <= 100; i++) 
+					System.out.println("task1 : " + i);
+								
+				for(int i = 200; i <= 300; i++) 
+					System.out.println("task1 : " + i);
+				
+				
+			};
+			
+			Runnable task2 = () -> {
+				
+				for(int i = 1; i <= 100; i++) 
+					System.out.println("task2 : " + i);
+				
+
+				for(int i = 200; i <= 300; i++) 
+					System.out.println("task2 : " + i);
+				
+				
+			};
+			
+			Thread thread1 = new Thread(task);
+			Thread thread2 = new Thread(task2);
+			thread1.start();
+			thread1.join(5000);
+			thread2.start();
+
+
+---
+
+#### Thread.sleep(millis) 
+
+	try {
+		Thread.sleep(2000);
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+
+
+2000밀리초(2초) 간 Thread의 실행을 멈추고 다른 Thread가 실행될 수 있도록한다.
+
+---
+
+#### thread.join(millis)
+
+	thread1.start();
+	thread1.join(5000);
+	thread2.start();
+
+
+해당 thread가 죽을 때(정상종료 또는 exception 던짐)까지 기다린다. 
+
+파라미터의 시간만큼 해당 스레드만 실행되도록 보장한다. 
+
+시간 전에 끝나면 다른 thread 병행 실행
+
+시간 이후에는 다른 thread와 병행되어 실행된다.
+
+---
+
+- sleep과 wait는 모두 checked exception인 InterruptedException을 던진다.
+
+---
+
+### Thread Interruption
+
+- Interruption의 정확한 정의는 없지만 대부분 "취소 요청"을 의미한다.
+
+		Runnable task = () -> {
+			
+			for(int i = 1; i <= 1000; i++) {
+				
+				if(Thread.currentThread().isInterrupted()) return;
+				System.out.println(i);
+			}
+			
+		}; 
+
+
+- task를 실행하는 Thread가 인터럽트되면 run 메소드가 종료된다.
+
+---
+
+#### sleep을 사용할 때 Interrunption
+
+
+	Runnable task2 = () -> {
+
+		try {
+			for (int i = 1; i <= 1000; i++) {
+				if (i == 500)
+					Thread.sleep(10000);
+				System.out.println(i);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	};
+
+
+- sleep 도중에 인터럽트가 발생하면 InterruptedException을 던진다. 그럴 경우에 종료시키면 된다.
+
+---
+
+### ThreadLocal
+
+- Thread별로 인스턴스를 만들어 공유자원에서 발생하는 문제를 해결할 수 있다.
+
+	public static final NumberForamt currnecyFormat = NumberFormat.getCurrencyInstance();
+
+
+여러 개의 스레드에서
+
+	String amountDue = currencyFormat.format(total);
+
+으로 currencyFormat의 format을 호출하면 인스턴스 내부의 자료구자가 손상 될 수 있다.
+
+
+해결방법
+
+	
+	public static final ThreadLocal<NumberFormat> currencyFormat = 
+		ThreadLocal.withInitial(()->NumberFormat.getCurrencyInstance());
+
+
+	// 개별 thread 내의 코드
+
+	String amountDue = test.currencyFormat.get().format(1000);
+
+스레드 별로 해당 스레드용 인스턴스를 생성해 format메소드를 호출하면 공유자원 문제가 해결된다.
+
+---
+
+### 비동기 계산
+
+#### CompletableFuture
+
+- 너무 어렵다...
+
+---
+
+### 프로세스
+
+#### 생성
+
+	ProcessBuilder builder = new ProcessBuilder("cmd.exe");
+
+cmd.exe 프로그램을 실행하는 processor를 생성한다.
+
+---
+
+	Process p = new ProcessBuilder("cmd.exe", "mkdir", "test")
+		.directory(Paths.get("/").toFile())
+		.start();
+
+와 같이 호출할 수도 있다.
+---
+
+	OutputStream processIn = p.getOutputStream();
+	
+	InputStream processOut = p.getInputStream();
+	
+	InputStream processErr = p.getErrorStream();
+
+
+JVM이 개발자 입장이라고 보면 된다.
+
+process의 InputStream -> JVM의 OutputStream
+
+process의 Output/ErrorStream -> JVM의 InputStream
+
+---
+
+#### stream의 일부만 상속받기
+
+	builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+	builder.redirectInput(ProcessBuilder.Redirect.INHERIT);
+	builder.redirectError(ProcessBuilder.Redirect.INHERIT);
+
+를 호출하면 된다.
+
+---
+
+#### process의 환경변수 수정
+
+		Map<String, String> env = builder.environment();
+		
+		env.put("LANG", "fr_FR");
+		env.remove("JAVA_HOME");
+		Process process = builder.start();
+
+put("환경변수명", "환경변수 값") 을 파라미터로 넣어 메소드를 호출하면 된다.
+
+---
+
+#### process 실행
+
+	Process p = new ProcessBuilder("cmd.exe")
+		.directory(Paths.get("/").toFile())
+		.start();
+
+	try(Scanner in = new Scanner(p.getInputStream())) {
+		while (in.hasNextLine())
+			System.out.println(in.nextLine());
+	}
+
+
+출력
+
+	Microsoft Windows [Version 10.0.18362.900]
+	(c) 2019 Microsoft Corporation. All rights reserved.
+	입력대기...
+
+
+---
+
+process stream용 버퍼 공간은 제한되어 있다. 입력을 지나치게 제공하면 안되고, 출력은 즉시 읽어야한다. 입출력이 많을 때는 별도의 thread에서 읽기/쓰기 하는 것이 좋다.
+
+
+---
+
 
