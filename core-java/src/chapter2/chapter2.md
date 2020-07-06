@@ -6,7 +6,7 @@
 
 그 외 제어자 : static, final, abstract, native, syncronized, transient
 
-### 접근자메서드
+### 접근자 메서드
 
 호출 대상객체를 변경하지 않는 메서드
 
