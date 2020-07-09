@@ -2,7 +2,7 @@
 
 ### 인터페이스 선언
 
-인터페이스의 모든 메서드는 자동으로 public이 된다.
+- 인터페이스의 모든 메서드는 자동으로 public이 된다.
 
 	public class SquareSequence implements IntSequence
 	
