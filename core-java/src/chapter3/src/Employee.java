@@ -5,9 +5,14 @@ import java.util.Arrays;
 public class Employee implements Comparable<Employee>{
 	
 	private int id;
+	private String name;
 	
 	public Employee() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Employee(String name){
+		this.name = name;
 	}
 	
 	@Override
@@ -24,6 +29,12 @@ public class Employee implements Comparable<Employee>{
 		this.id = id;
 	}
 	
+	
+	
+	public String getName() {
+		return name;
+	}
+
 	public static void main(String[] args) {
 		
 		Employee a = new Employee();

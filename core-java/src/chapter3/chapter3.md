@@ -183,6 +183,8 @@ FileSequence의 슈퍼타입은 IntSequence와 Closeable이 된다.
 
 - 헷갈리기(conflict) 때문에 구현하는 클래스에서 정의하라는 오류 메세지를 출력한다.
 
+- 개발자가 헷갈리지 않도록 명확하게 정의해야 한다.
+
 ---
 
 
@@ -322,6 +324,8 @@ Runnable 인터페이스의 run함수를 정의해서 사용한다.
 
 - 나중에 실행할 수 있게 전달하는 코드 블록. 인스턴스를 생성할 때 아주 편리하다.
 
+- 파라미터/리턴 값의 타입을 컴파일러가 "추론"할 수 있다는 것이 포인트다. 논리적으로 생각해서 추론할 만한 점이 있는지 생각해보자
+
 
 - 표현식
 	
@@ -343,7 +347,9 @@ Runnable 인터페이스의 run함수를 정의해서 사용한다.
 
 		Comparator<String> comp = (first, second) -> first.length() - second.length();
 
-	- length() 메소드는 String에만 있기 때문에 파라미터를 String 타입이라고 추론할 수 있다.
+	-  제네릭 타입이 String인 Comparator에 초기화 하기 때문에 first, second가 String 타입인 것을 추론할 수 있다.
+
+	- length() 메소드는 String에만 있기 때문에 파라미터를 String 타입이라고 추론할 수 있다.(X)
 
 
 - 파라미터가 하나인 경우 괄호를 생략할 수 있다.
@@ -435,9 +441,36 @@ System.out클래스의 println메서드를 인자로 입력한 것이다.
 
 - 메서드가 들어가야 할 자리(클래스 or 객체::메서드)에서 new가 들어가는 것을 제외하고는 메서드 참조와 같다.
 
-ex) n->new int[n]   >>>   int[]::new
 
-- 8장의 stream을 배운 후 다시 확인하자
+
+		List<String> names = new ArrayList<>();
+		
+		names.add("yoo");
+		names.add("kim");
+		names.add("shin");
+		names.add("kang");
+		names.add("lee");
+		
+		
+		Stream<Employee> stream = names.stream().map(Employee::new);
+		//컴파일러가 Employee::new이 Employee(String name){...} 생성자임을 추론한다.(name의 제네릭타입이 String이기 때문에)
+		
+		stream.forEach(employee -> System.out.println(employee.getName()));
+
+출력
+
+	yoo
+	kim
+	shin
+	kang
+	lee
+
+---
+ex)
+
+	n->new int[n]   >>>   int[]::new
+
+8장의 stream을 배운 후 다시 확인하자
 
 ---
 
@@ -485,6 +518,60 @@ ex)
 - println 메소드는 리턴 타입이 void이기 때문에 추상메소드의 리턴 타입이 void인 함수형 인터페이스를 사용해야 한다.
 
 - 직접 만들기보다는 표준 인터페이스를 사용하는 것이 좋다.(예시에서는 IntConsumer사용)
+
+---
+
+- 람다식을 쓰는 이유 : Lazy Evaluation(지연 연산)
+
+Lazy Evaluation : 불필요한 연산을 피하는 것 (<-> Eager Evaluation(조급한 연산, 람다식을 사용하지 않으면 Eager Evaluation을 하게된다.))
+
+func01() || func02() 의 경우 func01이 true면 func02는 실행하지 않는다.(func01이 실행완료되기 전까지 실행 안되고 false면 실행)
+
+func01() && func02() 의 경우 func01이 false면 func02는 실행하지 않는다.
+
+불필요한 연산을 줄여 속도를 높이고 효율적으로 동작하도록 한다.
+
+
+
+
+		List<Integer> list = new ArrayList<>();
+		
+		for(int element = 1; element <= 10; element++) {
+			list.add(element);
+		}
+		
+		
+		System.out.println(
+				list.stream()
+				.filter(i -> {
+					System.out.println("i < 6 : " + i);
+					return i < 6;
+				})
+				.filter(i -> {
+					System.out.println(" i % 2 : " + i);
+					return i % 2==0;
+				})
+				.map(i -> { // functional interface : Function
+					System.out.println("i = i*10 : " + i);
+					return i*10;
+				})
+				.collect(Collectors.toList())
+				);
+
+
+
+eager evaluation의 실행순서
+
+1. 1~10을 돌면서 6보다 작은 수를 찾는다.
+
+2. 1번에서 찾은 수 중에서 2의 배수를 찾는다.
+
+3. 2번에서 찾은 수의 10을 곱한다.
+
+
+lazy evaluation의 실행순서
+
+1~10을 돌면서 각각의 숫자가 6보다 작은지, 2의 배수인지 확인해 맞으면 10을 곱한다.(불필요한 연산을 하지 않는다.)
 
 
 ---
@@ -560,11 +647,15 @@ first가 중복선언되어 오류 발생
 
 - 람다식을 표현하는 자료 구조(예시의 r)는 반드시 자유변수(text, count)의 값을 저장해야한다.
 
-- 람다표현식이 값을 캡쳐 : 람다표현식에 들어가는 변수가 자유변수 일 경우 모두 실행될 때까지 이 값들을 저장하는 것
+- 자유변수 : 파라미터, 코드 내부에서 선언한 변수가 아닌 변수
 
-- 클로저 : 자유 변수의 값을 사용하는 코드 블록
+- 람다표현식이 값을 캡쳐 : 람다표현식에 들어가는 변수가 자유변수일 경우 모두 실행될 때까지 이 값들을 저장하는 것
 
-- 람다 표현식은 값이 변하지 않는 변수만 참조할 수 있다.(text와 count는 파라미터로 받아 변하지 않는 것으로 간주한다.)
+- 캡쳐를 하게 되는 경우 : 메소드의 인자를 메소드 내부의 새로운 스코프(람다식의 구현부, 내부/익명 클래스의 메소드 등)에서 사용할 때(이렇게 사용되는 인자가 자유변수가 된다.)
+
+- 클로저 : 자유 변수의 값을 사용하는 코드 블록(람다식)
+
+- 람다 표현식은 값이 변하지 않는 변수만 참조(캡쳐)할 수 있다.(text와 count는 파라미터로 받아 변하지 않는 것으로 간주한다.)
 
 		for(int i = 0; i < n; i++){
 			new Thread(() -> System.out.println(i)).start();
@@ -601,12 +692,24 @@ effectively final 규칙 때문에 캡쳐한 변수를 변경할 수 없다.
 
 캡쳐한 변수를 변경할 수 없다는 에러가 발생한다.
 
+
+---
+
+- 향상된 for 루프문(forEach문)에서의 element는 single iteration이므로 effectively final이다. 그러므로 element를 캡쳐할 수 있다.
+
+	for(String arg : args){
+
+		new Thread(()->System.out.println(arg)); // arg를 수정할 수 없기 때문에 effectively final이다.
+	}
+
 ---
 
 
 ## 고차 함수
 
 - 함수를 처리(수정)하거나 반환하는 함수
+
+- 고차함수의 리턴 값으로 람다식을 사용할 수 있다.
 
 ### 함수를 반환하는 메소드
 
@@ -716,7 +819,7 @@ new 인터페이스() {메서드 구현} : 인터페이스와 인터페이스의
 
 - 아무것도 없는 interface
 
-- 해당 인터페이스를 구현했다는 체크를 하기 위한 용도(기능을 활성화 시키기 위한 버튼정도의 느낌)
+- 해당 인터페이스를 구현했다는 체크를 하기 위한 용도(기능을 활성화 시키기 위한 버튼의 느낌)
 
 - 내부적으로 특정 기능을 수행할지 말지를 결정한다.
 
