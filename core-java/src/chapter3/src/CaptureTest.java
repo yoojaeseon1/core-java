@@ -24,8 +24,8 @@ public class CaptureTest {
 
 			@Override
 			public double average(IntSequence seq, int n) {
-				// TODO Auto-generated method stub
-				return 0;
+				return n;
+				// TODO Auto-generated method stub 
 			}
 			
 		}
