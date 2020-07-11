@@ -63,7 +63,7 @@ Manager 클래스
 
 #### 서브 클래스 생성
 
-- 서브클래스(Manager)의 생성자는 슈퍼클래스(Employee)의 private 필드에 접근할 수 없다.
+- 서브클래스(Manager)의 생성자는 슈퍼클래스(Employee)의 private 필드(인스턴스 변수)에 접근할 수 없다.
 - 그렇기 때문에 슈퍼클래스의 생성자로 해당 필드를 초기화해야 한다.
 
 	public Manager(String name, double salary) {
@@ -148,7 +148,6 @@ Employee 클래스에는 setBonus가 정의되어 있지 않기 때문에 에러
 
 	}
 
-final로 지정되어 있어 서브클래스를 만들 수 없다.
 
 ---
 
@@ -388,7 +387,7 @@ PrintStream 클래스는 toString()을 오버라이딩 하지 않았기 때문�
 
 - 두 인스턴스가 같은 내용을 담고 있다면 같다고 보는 경우에만 equals메서드를 오버라이딩한다.
 
-- equals 메소드를 오버라이딩할 때는 이와 호환되는 hashCode메소드도 반드시 제공해야 한다.
+- equals 메소드를 오버라이딩할 때는 이와 호환되는 hashCode메소드도 반드시 제공해야 한다.(x.equals(y)가 true면 x.hashCode()==y.hashCode()도 true여야 한다.)
 
 두 객체(x,y)의 값(내용)이 같은지 확인한다.
 
@@ -512,7 +511,7 @@ a.equals(b), a.equals(c) 그리고 a==b는 true이지만 a==c는 false가 된다
 
 ### hashCode()
 
-- hashCode와 equals 메서드는 반드시 호환되어야 한다.
+- hashCode와 equals 메서드는 반드시 호환되어야 한다.(x.equals(y)가 true면 x.hashCode()==y.hashCode()도 true여야 한다.)
 
 - 사용자는 equals 메서드에서 두 인스턴스의 hashcode값을 비교하는 조건문을 반드시 넣어야 되기 때문에 equals메서드를 작성하기위해 반드시 hashCode() 메서드도 작성해야 한다.
 
@@ -540,7 +539,7 @@ a.equals(b), a.equals(c) 그리고 a==b는 true이지만 a==c는 false가 된다
 
 #### hashCode 메서드의 오버라이딩
 
-- euqlas메서드를 재정의 할 때는 hashCode 메소드도 재정의해서 equals가 호환되도록 만들어야 한다.
+- euqlas메서드를 오버라이딩할 때는 hashCode 메소드도 오버라이딩해서 equals가 호환되도록 만들어야 한다.
 
 - 하지 않으면 사용자가 해시 집합이나 해시 맵에 객체를 넣었다가 객체를 잃게 될 수도 있다.
 
@@ -611,7 +610,13 @@ Ojbects.hash 메서드는 파라미터를 가변으로 받는다. 그리고 null
 
 ---
     
-### enumeration(열거) : 자주 쓰이니까 잘 알아두자
+### enumeration(열거)
+
+- 관련있는 상수들의 집합 클래스
+
+- 상수와 mapping되는 연산을 추가할 수도 있다.
+
+- 자주 쓰이니까 잘 알아두자
 
 #### enum 정의하기
 
@@ -636,6 +641,7 @@ enum 상수를 생성하는 코드를 가장 먼저 작성해야 한다.
 
 	Size notMySize = Size.valueOf("SMALL");
 또는
+
 	Size notMySize = Size.SMALL;
 
 출력
@@ -685,6 +691,7 @@ enum의 생성자는 반드시 private여야 한다.(생략하면 private)
 생성자를 public이나 protected로 하면 에러 발생 
 
 ---
+
 #### 인스턴스의 구현부
 
 	public enum Operation {
@@ -724,7 +731,7 @@ enum의 생성자는 반드시 private여야 한다.(생략하면 private)
 
 출력
 
-3
+	3
 
 ---
 
@@ -753,7 +760,7 @@ enum의 생성자는 반드시 private여야 한다.(생략하면 private)
 
 enum 상수를 생성하면서 생성자 실행(이 때는 아직 static 필드는 정의되어 있지 않다.)
 
-생성자가 실행되기 이전에는 static 필드가 정의되지 않다.
+생성자가 실행되기 이전에는 static 필드가 정의되지 않는다.
 
 ##### 해결방법
 
@@ -827,6 +834,65 @@ enum 상수가 생성되고 나면 static 필드 초기화와 static 초기화 �
 0
 
 - switch 문에서는 Operation.ADD가 아니라 ADD를 사용해야 한다.(switch 블록에 쓰인 표현식의 타입에서 타입을 추론한다.)
+
+---
+
+#### 다른 enum활용 예제
+
+tableStatus.java
+
+	public enum TableStatus {
+		
+		Y("1", true),
+		N("0", false);
+		
+		
+		private String table1Status;
+		private boolean table2Status;
+		
+		private TableStatus(String table1Status, boolean table2Status) {
+			this.table1Status = table1Status;
+			this.table2Status = table2Status;
+		}
+		
+		public String getTable1Status(){
+			return this.table1Status;
+		}
+		
+		public boolean getTable2Status(){
+			return this.table2Status;
+		}
+	
+	}
+
+
+OriginTable.java
+
+	public class OriginTable {
+		
+		public static void main(String[] args) {
+			
+			TableStatus origin = TableStatus.valueOf("Y");
+			
+			String table1Status = origin.getTable1Status();
+			boolean table2Status = origin.getTable2Status();
+			
+			System.out.println("table1Status : " + table1Status);
+			System.out.println("table2Status : " + table2Status);
+			
+			
+		}
+	}
+
+
+- origin / table1 / table2 에서 특정 속성의 값 중 
+	- YES를 나타내는 값이 Y/"1"/true, 
+	- NO를 나타내는 값이 N/"0"/false 일 경우
+	- 통일 시키는 메소드를 만드는 것보다 위처럼 enum으로 처리해주는 것이 나중에 변환해야할 값을 추가/삭제할 때 편리하다.
+
+- 변환을 위한 새로운 메소드를 추가하는 것은 코드의 양을 불필요하게 증가시킨다.
+
+---
 
 ### Class 클래스
 

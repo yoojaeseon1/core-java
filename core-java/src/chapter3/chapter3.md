@@ -607,7 +607,7 @@ first가 중복선언되어 오류 발생
 			Runnable runner = () -> {System.out.println(this.toString())};
 			
 		}
-	} 
+	}
 
 - this는 Application을 의미한다.
 - 람다식의 유효범위는 doWork와 중첩되고 doWork에서 this를 사용한 것과 람다식 안에 this를 사용한 것은 동일하다.
